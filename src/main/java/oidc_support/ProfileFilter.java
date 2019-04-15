@@ -49,13 +49,18 @@ public class ProfileFilter implements Filter {
 		java.lang.System.out.println("26.ProfileFilter_oidcUsername=");
 		java.lang.System.out.println(oidcUsername.toString());		
 		
-		final HttpServletRequest httpRequest = (HttpServletRequest) request;
+		
+		/*final HttpServletRequest httpRequest = (HttpServletRequest) request;
 	    HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(httpRequest); 
 	    //String newheaders = request.getRemoteAddr();
 	    ((HeaderMapRequestWrapper) wrapper).addHeader("SM_User",oidcUsername);
-	    
-		chain.doFilter(wrapper, response);
-	    
+	    */
+		
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HeaderMapRequestWrapper requestWrapper =  new HeaderMapRequestWrapper(httpRequest);
+		requestWrapper.addHeader("SM_User", oidcUsername);
+		chain.doFilter(requestWrapper, response);
+		
 	    //{
 	    //    @Override
 	    //    public String getHeader(String name) {
