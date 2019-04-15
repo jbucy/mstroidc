@@ -27,21 +27,21 @@ public class OidcConfigurationFactory implements ConfigFactory {
 		//oidcConfig.setConnectTimeout(5000);
 		//oidcConfig.setResponseType("code id_token");
 		
-		java.lang.System.out.println("12.OidcConfigurationFactory_oidcConfig=");
-		java.lang.System.out.println(oidcConfig.toString());	
-		java.lang.System.out.println(oidcConfig.STATE.toString());
-		java.lang.System.out.println(oidcConfig.STATE_SESSION_ATTRIBUTE);		
-		java.lang.System.out.println("12b.OidcConfigurationFactory_oidcConfig.getStateData=");
-		java.lang.System.out.println(oidcConfig.getStateData());
+		System.out.println("12.OidcConfigurationFactory_oidcConfig=");
+		System.out.println(oidcConfig.toString());	
+		System.out.println(oidcConfig.STATE.toString());
+		System.out.println(oidcConfig.STATE_SESSION_ATTRIBUTE);		
+		System.out.println("12b.OidcConfigurationFactory_oidcConfig.getStateData=");
+		System.out.println(oidcConfig.getStateData());
 	
 		final OidcClient client = new OidcClient(oidcConfig);
 
 		
-		client.setCallbackUrl("https://dc1wdedwrpt04.31gifts.corp:8443/customweb/callback");
+		client.setCallbackUrl("https://localhost:8443/customweb/callback");
 		client.setCallbackUrlResolver(new NoParameterCallbackUrlResolver());
 		
-		java.lang.System.out.println("13.OidcConfigurationFactory_client=");
-		java.lang.System.out.println(client.toString());
+		System.out.println("13.OidcConfigurationFactory_client=");
+		System.out.println(client.toString());
 		
 		//Clients clients = new Clients("https://dc1wdedwrpt04.31gifts.corp:8443/customweb", client);
         Clients clients = new Clients("https://dc1wdedwrpt04.31gifts.corp:8443/customweb/callback", client);
@@ -49,8 +49,8 @@ public class OidcConfigurationFactory implements ConfigFactory {
         //clients.setDefaultSecurityClients("OidcClient");
         Config config = new Config(clients);     
     
- 		java.lang.System.out.println("14.OidcConfigurationFactory_config=");    		
-        java.lang.System.out.println(config.toString());    
+ 		System.out.println("14.OidcConfigurationFactory_config=");    		
+        System.out.println(config.toString());    
         
         return config;   
 	}
