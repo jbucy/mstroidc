@@ -31,45 +31,29 @@ public class ProfileFilter implements Filter {
 	@Override
 	public void doFilter(final ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// get current user from pac4j post-authentication
 		
-		java.lang.System.out.println("21.Executing ProfileFilter");
+		// get current user from pac4j post-authentication
+		System.out.println("21.Executing ProfileFilter");
 		
 		final WebContext context = new J2EContext((HttpServletRequest) request, (HttpServletResponse) response);
-		java.lang.System.out.println("22.ProfileFilter=assigned context");
+		System.out.println("22.ProfileFilter=assigned context");
 		final ProfileManager<OidcProfile> pm = new ProfileManager<OidcProfile>(context);
 		
-		java.lang.System.out.println("23.ProfileFilter=assigned pm");
+		System.out.println("23.ProfileFilter=assigned pm");
 		final OidcProfile userProfile = pm.get(true).get();
-		java.lang.System.out.println("24.ProfileFilter=assigned userProfie");
+		System.out.println("24.ProfileFilter=assigned userProfie");
 		final String oidcUsername = userProfile.getUsername();
 
-		java.lang.System.out.println("25.ProfileFilter_pm=");
-		java.lang.System.out.println(pm.toString());	
-		java.lang.System.out.println("26.ProfileFilter_oidcUsername=");
-		java.lang.System.out.println(oidcUsername.toString());		
+		System.out.println("25.ProfileFilter_pm=");
+		System.out.println(pm.toString());	
+		System.out.println("26.ProfileFilter_oidcUsername=");
+		System.out.println(oidcUsername.toString());		
 		
-		
-		/*final HttpServletRequest httpRequest = (HttpServletRequest) request;
-	    HttpServletRequestWrapper wrapper = new HttpServletRequestWrapper(httpRequest); 
-	    //String newheaders = request.getRemoteAddr();
-	    ((HeaderMapRequestWrapper) wrapper).addHeader("SM_User",oidcUsername);
-	    */
-		
+			
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HeaderMapRequestWrapper requestWrapper =  new HeaderMapRequestWrapper(httpRequest);
-		requestWrapper.addHeader("SM_User", oidcUsername);
+		requestWrapper.addHeader("SM_USER", oidcUsername);
 		chain.doFilter(requestWrapper, response);
-		
-	    //{
-	    //    @Override
-	    //    public String getHeader(String name) {
-	    //        final String value = request.getParameter(name);
-	    //        if (value != null) {
-	    //            return value;
-	    //        }
-	    //        return super.getHeader(name);
-	    //    }
 	       
 	    }
 
