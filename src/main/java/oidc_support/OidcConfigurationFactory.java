@@ -43,7 +43,7 @@ public class OidcConfigurationFactory implements ConfigFactory {
 		logger.info("Successfully configure OIDC with Client ID and URI ");
 		final OidcClient oidcClient = new OidcClient(oidcConfig);
 		
-		oidcClient.setCallbackUrl(propertiesFileReader.getCallBackURL()+"customweb/callback");
+		oidcClient.setCallbackUrl(propertiesFileReader.getCallBackURL()+"callback");
 		oidcClient.setCallbackUrlResolver(new NoParameterCallbackUrlResolver());
 		logger.info("Successfully configure OIDC Client with current environment URL " + oidcClient.toString());
 
@@ -52,7 +52,7 @@ public class OidcConfigurationFactory implements ConfigFactory {
 		 * Clients("https://dc1wdedwrpt04.31gifts.corp:8443/customweb", client);
 		 */
 
-		Clients clients = new Clients(propertiesFileReader.getClientsURL()+"customweb/callback", oidcClient);
+		Clients clients = new Clients(propertiesFileReader.getClientsURL()+"callback", oidcClient);
 		// clients.setDefaultSecurityClients("OidcClient");
 		Config config = new Config(clients);
 		logger.info("Successfully Configuration completed with clients : " + config.toString());
