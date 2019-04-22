@@ -1,85 +1,149 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.tog</groupId>
-  <artifactId>oidc_support</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <dependencies>
-    <dependency> 
-        <groupId>com.microstrategy</groupId>
-        <artifactId>web</artifactId>
-        <type>war</type>
-        <scope>runtime</scope>
-        <version>11.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.pac4j</groupId>
-    	<artifactId>pac4j</artifactId>
-    	<version>3.6.1</version>
-    	<type>pom</type>
-    </dependency>
-    <dependency>
-    	<groupId>org.pac4j</groupId>
-    	<artifactId>pac4j-oidc</artifactId>
-    	<version>3.6.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<version>2.5</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.pac4j</groupId>
-    	<artifactId>pac4j-core</artifactId>
-    	<version>3.6.1</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.pac4j</groupId>
-    	<artifactId>j2e-pac4j</artifactId>
-    	<version>4.1.0</version>
-    </dependency>
-  </dependencies>
-  <build> 
-    <finalName>customweb</finalName>
-    <plugins>
-    	<plugin>
-    		<groupId>org.apache.maven.plugins</groupId>
-    		<artifactId>maven-war-plugin</artifactId>
-    		<version>3.2.2</version>
-    		<configuration>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.tog</groupId>
+	<artifactId>oidc_support</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<dependencies>
 
-               <overlays>
-                  <overlay>
-                    <groupId>com.microstrategy</groupId>
-                    <artifactId>web</artifactId>
-                  </overlay>
-               </overlays>
-            </configuration>
-    	</plugin>
-		<plugin>
-   			<groupId>org.apache.tomcat.maven</groupId>
-   			<artifactId>tomcat9-maven-plugin</artifactId>
-   			<version>2.2</version>
-   			<configuration>
-	      		<url>http://localhost:8080/manager/text</url>
-    	  		<path>/DeployMavenToTomcat</path>
-      			<!-- Set update to true to avoid exist war package can not be override error -->
-      			<update>true</update>
-      			<!-- Because deploy this maven project using plugin in pom so use the manager-script role user. -->
-      			<username>tomcat</username>
-      			<password>tomcat</password>
-   			</configuration>
-		</plugin>
-    </plugins>
-  </build> 
+		<dependency>
+			<groupId>com.microstrategy</groupId>
+			<artifactId>web</artifactId>
+			<type>war</type>
+			<scope>runtime</scope>
+			<version>11.1</version>
+		</dependency>
 
-  <packaging>war</packaging>
-  <dependencyManagement>
-  	<dependencies>
-  		<dependency>
-  			<groupId>com.microstrategy</groupId>
-  			<artifactId>web</artifactId>
-  			<version>11.1</version>
-  		</dependency>
-  	</dependencies>
-  </dependencyManagement>
+		<!-- Pac4j package meaven dependencies -->
+		<dependency>
+			<groupId>org.pac4j</groupId>
+			<artifactId>pac4j</artifactId>
+			<version>3.6.1</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.pac4j</groupId>
+			<artifactId>pac4j-oidc</artifactId>
+			<version>3.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.pac4j</groupId>
+			<artifactId>pac4j-core</artifactId>
+			<version>3.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.pac4j</groupId>
+			<artifactId>j2e-pac4j</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<!-- End of the dependencies -->
+
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>2.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<!-- Logger dependency to use for tracing the information -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>customweb</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+
+					<overlays>
+						<overlay>
+							<groupId>com.microstrategy</groupId>
+							<artifactId>web</artifactId>
+						</overlay>
+					</overlays>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib</classpathPrefix>
+							<!-- <mainClass>test.org.Cliente</mainClass> -->
+						</manifest>
+						<manifestEntries>
+							<Class-Path>${basedir}/lib</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat9-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<path>/DeployMavenToTomcat</path>
+					<!-- Set update to true to avoid exist war package can not be override 
+						error -->
+					<update>true</update>
+					<!-- Because deploy this maven project using plugin in pom so use the 
+						manager-script role user. -->
+					<username>tomcat</username>
+					<password>tomcat</password>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<packaging>war</packaging>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.microstrategy</groupId>
+				<artifactId>web</artifactId>
+				<version>11.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

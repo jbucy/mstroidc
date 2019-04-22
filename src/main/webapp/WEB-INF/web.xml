@@ -94,12 +94,15 @@
       	</param-value>
       </init-param>
   </filter>
+  
   <filter-mapping>
       <filter-name>GlobalHeaders</filter-name>
       <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  <!-- BEGIN Pac4j config -->
+  <!-- BEGIN Pac4j config. -->
+ <!-- This filter configuration is being used for SSO  -->
+ 
   <filter>
     <filter-name>OidcFilter</filter-name>
     <filter-class>org.pac4j.j2e.filter.SecurityFilter</filter-class>
@@ -112,26 +115,23 @@
       <param-value>OidcClient</param-value>
     </init-param>
   </filter>
+ 
   <filter-mapping>
     <filter-name>OidcFilter</filter-name>
     <url-pattern>/servlet/mstrWeb</url-pattern>
   </filter-mapping>
-    
-  <filter>
-    <filter-name>callbackFilter</filter-name>
-    
-    <filter-class>oidc_support.DebugFilter</filter-class>
-<!--
+  
+   <filter>
+    <filter-name>callBackFilter</filter-name>
     <filter-class>org.pac4j.j2e.filter.CallbackFilter</filter-class>
--->
     <init-param>
       <param-name>defaultUrl</param-name>
       <param-value>/</param-value>
     </init-param>
-     
   </filter>
+  
   <filter-mapping>
-    <filter-name>callbackFilter</filter-name>
+    <filter-name>callBackFilter</filter-name>
     <url-pattern>/callback</url-pattern>
   </filter-mapping>
   
@@ -143,9 +143,17 @@
     <filter-name>postLoginFilter</filter-name>
     <url-pattern>/servlet/mstrWeb</url-pattern>
   </filter-mapping>  
+ 
   <!-- 
     -->
   <!-- END Pac4j config -->
+  
+  
+  <!-- Specify the error page for handle the exception -->
+  <error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error.jsp</location>
+  </error-page>
 
   <servlet>
     <servlet-name>mstrDocumentImages</servlet-name>
@@ -186,6 +194,7 @@
     <servlet-class>com.microstrategy.web.servlets.TaskProcessorServlet</servlet-class>
     <load-on-startup>10</load-on-startup>
   </servlet>
+  
   <servlet>
     <description>This is the Servlet that provides tool interface for task developers to discover and test tasks.</description>
     <display-name>TaskViewerServlet</display-name>
@@ -193,6 +202,7 @@
     <servlet-class>com.microstrategy.web.servlets.TaskViewerServlet</servlet-class>
     <load-on-startup>20</load-on-startup>
   </servlet>
+  
   <servlet>
     <description>This is the Servlet that handles administrative tasks.</description>
     <display-name>TaskAdminServlet</display-name>
@@ -212,57 +222,71 @@
     <servlet-name>TaskProcessorServlet</servlet-name>
     <url-pattern>/servlet/taskProc</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>TaskAdminServlet</servlet-name>
     <url-pattern>/servlet/taskAdmin</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>TaskViewerServlet</servlet-name>
     <url-pattern>/servlet/taskViewer</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrDocumentImages</servlet-name>
     <url-pattern>/servlet/Images/*</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrDocumentImages</servlet-name>
     <url-pattern>/servlet/savedImages/*</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrWeb72GraphLoader</servlet-name>
     <url-pattern>/servlet/MSIGraphLoader.asp</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrWeb72RebuildReport</servlet-name>
     <url-pattern>/servlet/RebuildReport.asp</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrDocumentImages</servlet-name>
     <url-pattern>/servlet/images/*</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrWeb</servlet-name>
     <url-pattern>/servlet/mstrWeb</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrWeb</servlet-name>
     <url-pattern>/export/*</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrWebAdmin</servlet-name>
     <url-pattern>/servlet/mstrWebAdmin</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>ResourceFeed</servlet-name>
     <url-pattern>/servlet/resourceFeed</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>mstrServerAdmin</servlet-name>
     <url-pattern>/servlet/mstrServerAdmin</url-pattern>
   </servlet-mapping>
+  
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
+  
   <mime-mapping>
     <extension>css</extension>
     <mime-type>text/css</mime-type>
